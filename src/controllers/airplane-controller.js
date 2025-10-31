@@ -4,7 +4,7 @@ const { SuccessResponse, ErrorResponse } = require("../utils/common");
 const { success } = require("../utils/common/success-response");
 const AppError = require("../utils/errors/app-errors");
 
-// api/v1/airplanes/:id POST
+// api/v1/airplanes/ POST
 async function createAirplane(req, res) {
   try {
     const airplane = await AirplaneService.createAirPlane({
