@@ -58,4 +58,32 @@ async function destroyAirplane(req, res) {
   }
 }
 
-module.exports = { createAirplane, getAirplanes, getAirplane, destroyAirplane };
+async function updateAirplane(req, res) {
+  try {
+    const { id } = req.params;
+    const { modelNumber, capacity } = req.body;
+
+    if (!modelNumber && !capacity) {
+      throw new AppError(
+        "At least one field (modelNumber or capacity) is required for update",
+        StatusCodes.BAD_REQUEST
+      );
+    }
+
+    const updateData = {};
+    if (modelNumber !== undefined) updateData.modelNumber = modelNumber;
+    if (capacity !== undefined) updateData.capacity = capacity;
+
+    const updatedAirplane = await AirplaneService.updateAirplane(
+      id,
+      updateData
+    );
+    SuccessResponse.data = updateAirplane;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+}
+
+module.exports = { createAirplane, getAirplanes, getAirplane, destroyAirplane,updateAirplane };

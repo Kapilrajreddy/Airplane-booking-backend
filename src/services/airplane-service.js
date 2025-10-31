@@ -72,9 +72,19 @@ async function destroyAirplane(id) {
   }
 }
 
+async function updateAirplane(id,data){
+    try{
+        const airplane = await airplaneRepository.update(id,data)
+        return airplane
+    }catch(error){
+        throw new AppError("Not able to update the airplane",StatusCodes.INTERNAL_SERVER_ERROR)
+    }
+}
+
 module.exports = {
   createAirPlane,
   getAirPlanes,
   getAirplane,
   destroyAirplane,
+  updateAirplane
 };
