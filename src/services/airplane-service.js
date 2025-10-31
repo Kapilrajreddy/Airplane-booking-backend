@@ -41,12 +41,32 @@ async function getAirplane(id) {
     const airplane = await airplaneRepository.get(id);
     return airplane;
   } catch (error) {
-    console.log(error,"error")
     if ((error.statusCode = StatusCodes.NOT_FOUND)) {
-      throw new AppError("The airplane you requested not found",error.statusCode);
+      throw new AppError(
+        "The airplane you requested not found",
+        error.statusCode
+      );
     }
     throw new AppError(
       "can not fetch the airplane",
+      StatusCodes.INTERNAL_SERVER_ERROR
+    );
+  }
+}
+
+async function destroyAirplane(id) {
+  try {
+    const airplane = await airplaneRepository.destroy(id);
+    return airplane
+  } catch (error) {
+    if ((error.statusCode = StatusCodes.NOT_FOUND)) {
+      throw new AppError(
+        "The airplane you requested not found",
+        error.statusCode
+      );
+    }
+    throw new AppError(
+      "Bot able to delete the airplane",
       StatusCodes.INTERNAL_SERVER_ERROR
     );
   }
@@ -56,4 +76,5 @@ module.exports = {
   createAirPlane,
   getAirPlanes,
   getAirplane,
+  destroyAirplane,
 };

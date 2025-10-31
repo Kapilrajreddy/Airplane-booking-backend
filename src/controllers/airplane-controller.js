@@ -2,7 +2,9 @@ const { StatusCodes } = require("http-status-codes");
 const { AirplaneService } = require("../services");
 const { SuccessResponse, ErrorResponse } = require("../utils/common");
 const { success } = require("../utils/common/success-response");
+const AppError = require("../utils/errors/app-errors");
 
+// api/v1/airplanes/:id POST
 async function createAirplane(req, res) {
   try {
     const airplane = await AirplaneService.createAirPlane({
@@ -20,6 +22,7 @@ async function createAirplane(req, res) {
   }
 }
 
+// api/v1/airplanes/ GET
 async function getAirplanes(req, res) {
   try {
     const airplanes = await AirplaneService.getAirPlanes();
@@ -31,11 +34,10 @@ async function getAirplanes(req, res) {
   }
 }
 
-// api/v1/airplanes/:id
+// api/v1/airplanes/:id GET
 async function getAirplane(req, res) {
   try {
     const airplane = await AirplaneService.getAirplane(req.params.id);
-    console.log(airplane,airplane,"airplane")
     SuccessResponse.data = airplane;
     return res.status(StatusCodes.OK).json(SuccessResponse);
   } catch (error) {
@@ -44,4 +46,16 @@ async function getAirplane(req, res) {
   }
 }
 
-module.exports = { createAirplane, getAirplanes,getAirplane };
+// api/v1/airplanes/:id DELETE
+async function destroyAirplane(req, res) {
+  try {
+    const airplane = await AirplaneService.destroyAirplane(req.params.id);
+    SuccessResponse.data = airplane;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.error = error;
+    res.status(error.statusCode).json(ErrorResponse);
+  }
+}
+
+module.exports = { createAirplane, getAirplanes, getAirplane, destroyAirplane };
