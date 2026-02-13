@@ -78,7 +78,7 @@ async function updateAirplane(req, res) {
       id,
       updateData
     );
-    SuccessResponse.data = updateAirplane;
+    SuccessResponse.data = updatedAirplane;
     return res.status(StatusCodes.OK).json(SuccessResponse);
   } catch (error) {
     ErrorResponse.error = error;

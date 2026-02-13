@@ -44,7 +44,7 @@ async function getAirport(req,res){
 
 async function updateAirport(req,res){
     try{
-        const {id} = req.params.id 
+        const {id} = req.params
         const {name,code,address,cityId} = req.body 
 
         if(!name && !code && !address && !cityId){
@@ -52,9 +52,16 @@ async function updateAirport(req,res){
         }
 
         const updateData = {}
-        if(name!==undefined) updateData.push(name)
-        if(code!==undefined) updateData.push(code)
+        if(name!==undefined) updateData.name = name
+        if(code!==undefined) updateData.code = code 
+        if(address!==undefined) updateData.address = address
 
+        const updatedAirport = await AirportService.updateAirport(
+              id,
+              updateData
+        );
+        SuccessResponse.data = updatedAirport;
+        return res.status(StatusCodes.OK).json(SuccessResponse);
     }catch(error){
         ErrorResponse.error = error 
         return res.status(error.statusCode).json(ErrorResponse)

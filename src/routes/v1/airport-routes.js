@@ -16,4 +16,7 @@ router.get("/",AirportController.getAirports)
 //api/v1/airports/:id GET
 router.get("/:id",AirportController.getAirport)
 
+//api/v1/airports/:id patch
+router.patch("/:id",AirportController.updateAirport)
+
 module.exports = router
